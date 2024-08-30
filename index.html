@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Juego Clicker</h1>
+    <div id="app"></div>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Material UI -->
+    <script src="https://unpkg.com/@mui/material/umd/material-ui.development.js"></script>
+    <script src="https://unpkg.com/@mui/icons-material/umd/material-ui-icons.development.js"></script>
+    <!-- Babel Script -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/jsx">
+        const { useState } = React;
+
+
+        function MyGame() {
+            const [count, setCount] = useState(0);
+            const [clickMult, setClickMult] = useState(1); 
+            const [price, setPrice] = useState(100); 
+
+            function handleClick() {
+                setCount(count + clickMult);
+            }
+
+            function handleShopButton(){
+                if(!handleDisabled()){
+                    setCount(count - price);
+                    setPrice(price + clickMult * 100);
+                    setClickMult(clickMult + 1);
+                }
+
+            }
+
+
+            function handleDisabled(){
+                return count < price;
+            }
+
+
+            return (
+                <div class="game">
+                <img src="cookie.png" onClick={handleClick}/>
+                <h2>Galletas: {count}</h2>
+                <h1>Tienda</h1>
+                <button variant="contained" disabled={handleDisabled()} onClick={handleShopButton}>Click X{clickMult + 1}  ${price}</button>
+                </div>
+            );
+        }
+        
+        const app = document.getElementById("app");
+        const root = ReactDOM.createRoot(app);
+
+        root.render(<MyGame/>);
+
+    </script>
+</body>
+</html>
